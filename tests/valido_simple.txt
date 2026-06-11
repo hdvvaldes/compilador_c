@@ -1,0 +1,15 @@
+int a;
+int b;
+int c;
+
+def int suma(int x, int y){
+    c = x + y;
+    return c;
+}
+
+def int main(){
+    a = 10;
+    b = 20;
+    c = suma(a, b);
+    return 0;
+}

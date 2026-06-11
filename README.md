@@ -9,7 +9,9 @@ Frontend compiler project in C++ using Flex and Bison.
 * **Rodrigo André Decuir Fuentes**
 
 **Professor:** Ing. Adara Mercado Martínez
+
 **Institution:** Universidad Nacional Autónoma de México
+
 **Semester:** 2026-2
 
 ## Features

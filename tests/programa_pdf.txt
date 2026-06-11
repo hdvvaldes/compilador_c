@@ -1,0 +1,30 @@
+struct X {
+    int a;
+    int b;
+    float c;
+}
+
+float x, y;
+int m, n;
+int c;
+int i, j;
+int z;
+int w1;
+
+def int suma(int x, int y){
+    w1 = 5;
+    z = x + y + w1;
+    return z;
+}
+
+def int main(){
+    m = 7;
+    n = 15;
+    c = suma(m, n);
+    for(i = 0; i < 5; i = i + 1){
+        if(i == 3){
+            break;
+        }
+    }
+    return 0;
+}

@@ -4,10 +4,11 @@
 %{
 #include <string>
 #include <iostream>
+#include "Driver.hpp"
 #include "parser.tab.hh"
 
 #undef YY_DECL
-#define YY_DECL yy::parser::symbol_type yylex()
+#define YY_DECL yy::parser::symbol_type yylex(yy::Driver& driver)
 %}
 
 /* Expresiones Regulares */

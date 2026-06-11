@@ -1,0 +1,10 @@
+int x;
+int x;
+
+def int suma(int a){
+    return a;
+}
+
+def int suma(int b){
+    return b;
+}
