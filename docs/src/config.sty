@@ -1,0 +1,128 @@
+\ProvidesPackage{config}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+%\usepackage{asymptote}
+\usepackage{cancel}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+%\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{mathtools}
+%\usepackage{minted}
+\usepackage{tikz,tikz-cd}
+\usetikzlibrary{automata, positioning, arrows.meta}
+\newcommand{\upvdash}{\rotatebox{90}{$\vdash$}}
+\usepackage{verbatim}
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+    linkcolor=NavyBlue,
+    citecolor=ForestGreen,
+    filecolor=Plum,
+    urlcolor=RubineRed,
+}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+
+% Paquetes para desplegar cajas
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+}
+\usepackage{lmodern}
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+
+\usepackage[export]{adjustbox}
+\usepackage{enumitem}
+
+\usepackage[most, many, breakable]{tcolorbox}
+
+
+%================================
+% CAJITA DE SOLUCION
+%================================
+% Forma de uso:
+% \begin{sol}{}{}
+% ...
+% \end{sol}
+\definecolor{mylenmabg}{HTML}{FFFAF8}
+\definecolor{mylenmafr}{HTML}{983b0f}
+
+\tcbuselibrary{theorems,skins,hooks}
+\newtcbtheorem[no counter]{sol}{Solución}
+{%
+	enhanced,
+	breakable,
+	colback = mylenmabg,
+	frame hidden,
+	boxrule = 0sp,
+	sharp corners,
+	detach title,
+	before upper = \tcbtitle\par\smallskip,
+	coltitle = mylenmafr,
+	fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+	separator sign none,
+    left=0pt,
+    right=0pt,
+}
+{th}
+
+%================================
+% CAJITA DE DEMOSTRACION
+%================================
+% Forma de uso:
+% \begin{dem}{}{}
+% ...
+% end{dem}
+\definecolor{mydembg}{HTML}{FFFAF8}
+\definecolor{mydemfr}{HTML}{0F983B}
+
+\tcbuselibrary{theorems,skins,hooks}
+\newtcbtheorem[no counter]{dem}{Demostración}
+{%
+	enhanced,
+	breakable,
+	colback = mydembg,
+	frame hidden,
+	boxrule = 0sp,
+	sharp corners,
+	detach title,
+	before upper = \tcbtitle\par\smallskip,
+	coltitle = mydemfr,
+	fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+	separator sign none,
+}
+{th}
+
+%================================
+% CAJITA DE CONTRAEJEMPLO
+%================================
+% Forma de uso:
+% \begin{con}{}{}
+% ...
+% \end{con}
+\definecolor{mydembg}{HTML}{FFFAF8}
+\definecolor{myconfr}{HTML}{7a49a5}
+
+\tcbuselibrary{theorems,skins,hooks}
+\newtcbtheorem[no counter]{con}{Contraejemplo}
+{%
+	enhanced,
+	breakable,
+	colback = mydembg,
+	frame hidden,
+	boxrule = 0sp,
+	sharp corners,
+	detach title,
+	before upper = \tcbtitle\par\smallskip,
+	coltitle = myconfr,
+	fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+	separator sign none,
+}
+{th}
