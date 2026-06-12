@@ -1,27 +1,27 @@
 # compilador_c
 
-Frontend compiler project in C++ using Flex and Bison.
+Frontend proyecto compilador en C++ usando Flex y Bison.
 
-## 👥 Team Members
+## 👥 Miembros
 * **Andrés Daniel López Molina**
 * **Roberto Carlos Uribe Cerda**
 * **Héctor Daniel Valdés Villa**
 * **Rodrigo André Decuir Fuentes**
 
-**Professor:** Ing. Adara Mercado Martínez
+**Profesora:** Ing. Adara Mercado Martínez
 
-**Institution:** Universidad Nacional Autónoma de México
+**Institución:** Universidad Nacional Autónoma de México
 
-**Semester:** 2026-2
+**Semestre:** 2026-2
 
-## Features
+## Características
 
-- Lexical analysis
-- Syntax analysis
-- Semantic analysis
-- Type tables
-- Symbol tables
-- Three-address code generation (TAC)
+- Análisis Léxico
+- Análisis Sintáctico
+- Análisis Semántico
+- Tabla de Tipos
+- Tabla de Símbolos
+- Generación de código de tres direcciones (TAC)
 
 ## Build
 
