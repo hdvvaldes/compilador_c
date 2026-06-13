@@ -1,6 +1,7 @@
 #ifndef QUAD_HPP
 #define QUAD_HPP
 
+/* Biblioteca para manejo de cadenas */
 #include <string>
 using namespace std;
 
@@ -21,19 +22,27 @@ namespace yy {
  *   t2 = a[t1]        → Quad("[]", "a", "t1", "t2")
  *   a[t1] = t2        → Quad("[]=", "a", "t1", "t2")
  *   (cast) t1=float(t0)→ Quad("cast_float","t0","","t1")
+ * Cada objeto representa una instrucción de código
+ * intermedio generada durante la compilación.
  */
 class Quad {
 public:
+
+    /* Constructor por defecto */
     Quad() = default;
+
+    /* Constructor completo de una cuádrupla */
     Quad(string op, string arg1, string arg2, string res)
         : _op(op), _arg1(arg1), _arg2(arg2), _res(res) {}
 
+    /* Métodos de acceso a los campos de la cuádrupla */
     string getOp()   const { return _op;   }
     string getArg1() const { return _arg1; }
     string getArg2() const { return _arg2; }
     string getRes()  const { return _res;  }
 
 private:
+    /* Componentes de la instrucción TAC */
     string _op, _arg1, _arg2, _res;
 };
 
