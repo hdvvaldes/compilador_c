@@ -1,6 +1,7 @@
 #ifndef TYPE_TABLE_HPP
 #define TYPE_TABLE_HPP
 
+/* Bibliotecas necesarias para la gestión de tipos */
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -11,18 +12,32 @@ using namespace std;
 namespace yy {
 
 /*
- * Tabla de tipos global (singleton dentro del Driver).
- * Se pre-carga con los 4 tipos básicos al inicializar.
+ * Tabla global de tipos del compilador.
  *
- *   ID  Nombre   Tam   TipoBase
- *   0   int      4     -1
- *   1   float    8     -1
- *   2   bool     1     -1
- *   3   char     1     -1
- *   4+  array/struct  dinámico
+ * Almacena los tipos básicos y todos los tipos
+ * compuestos (arreglos y structs) creados durante
+ * el análisis semántico.
+ *
+ * Tipos predefinidos:
+ *
+ * ID   Nombre   Tamaño
+ * --------------------
+ * 0    int      4
+ * 1    float    8
+ * 2    bool     1
+ * 3    char     1
+ *
+ * Los identificadores a partir de 4 corresponden
+ * a tipos creados dinámicamente.
  */
+
 class TypeTable {
 public:
+
+    /*
+     * Constructor.
+     * Inicializa la tabla con los tipos básicos.
+     */
     TypeTable() {
         // Tipos básicos predefinidos
         _types.push_back(Type(0, "int",   4, -1));
@@ -31,20 +46,31 @@ public:
         _types.push_back(Type(3, "char",  1, -1));
     }
 
-    // Obtener id de un tipo básico por nombre
+    /*
+     * Obtiene el identificador asociado a un tipo
+     * a partir de su nombre.
+     */
     int getId(string nombre) const {
         for (auto& t : _types)
             if (t.getNombre() == nombre) return t.getId();
         throw runtime_error("Type not found: " + nombre);
     }
 
+    /*
+     * Verifica si un tipo ya existe en la tabla.
+     */
     bool existe(string nombre) const {
         for (auto& t : _types)
             if (t.getNombre() == nombre) return true;
         return false;
     }
 
-    // Agregar tipo arreglo: add(dim, tipoBase, "array")
+    /*
+     * Agrega un tipo arreglo.
+     *
+     * El tamaño total se calcula como:
+     *      dimensión × tamaño(tipoBase)
+     */
     int add(int dim, int tipoBase, string cat) {
         int newId = (int)_types.size();
         if (cat == "array") {
@@ -55,7 +81,12 @@ public:
         return newId;
     }
 
-    // Agregar tipo struct: add(nombre, "struct", ts)
+    /*
+     * Agrega un nuevo tipo struct.
+     *
+     * El tamaño total del struct se obtiene
+     * sumando los tamaños de todos sus campos.
+     */
     int addStruct(string nombre, SymbolTable* ts) {
         int newId = (int)_types.size();
         // Calcular tamaño sumando tamaños de sus campos
@@ -66,6 +97,7 @@ public:
         return newId;
     }
 
+    // Consultas de propiedades de tipos
     int getTam(int id) const {
         return getById(id).getTam();
     }
@@ -78,6 +110,10 @@ public:
         return getById(id).getTipoBase();
     }
 
+    /*
+     * Devuelve la tabla interna asociada
+     * a un tipo struct.
+     */
     SymbolTable* getTS(int id) const {
         return getById(id).getTS();
     }
@@ -91,12 +127,24 @@ public:
         return false;
     }
 
-    // Retorna el tipo "mayor" (float > int para ampliar)
+    /*
+     * Obtiene el tipo resultante de una operación.
+     *
+     * Regla implementada:
+     *      float > int
+     *
+     * Si alguno de los operandos es float,
+     * el resultado será float.
+     */
     int maxTipo(int t1, int t2) const {
         if (t1 == 1 || t2 == 1) return 1; // float
         return t1;
     }
 
+    /*
+     * Imprime el contenido completo de la tabla
+     * de tipos en formato tabular.
+     */
     void print() const {
         printf("%-4s %-12s %-6s %-8s\n", "ID", "NOMBRE", "TAM", "BASE");
         printf("%-4s %-12s %-6s %-8s\n", "--", "------", "---", "----");
@@ -107,8 +155,16 @@ public:
     }
 
 private:
+
+    /*
+     * Contenedor principal de los tipos
+     * registrados en el compilador.
+     */
     vector<Type> _types;
 
+    /*
+     * Busca un tipo por identificador.
+     */
     const Type& getById(int id) const {
         for (auto& t : _types)
             if (t.getId() == id) return t;
