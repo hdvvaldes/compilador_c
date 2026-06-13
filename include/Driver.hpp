@@ -1,6 +1,7 @@
 #ifndef DRIVER_HPP
 #define DRIVER_HPP
 
+/* Bibliotecas estándar utilizadas por el Driver */
 #include <string>
 #include <vector>
 #include <stack>
@@ -9,6 +10,7 @@
 #include <sstream>
 using namespace std;
 
+/* Componentes principales del compilador */
 #include "SymbolTable.hpp"
 #include "TypeTable.hpp"
 #include "TAC.hpp"
@@ -17,6 +19,8 @@ namespace yy {
 
 /*
  * Expresión: par (dir, tipo) que viaja por las reglas semánticas.
+ * dir  -> nombre de temporal, literal o identificador.
+ * tipo -> identificador del tipo dentro de la tabla de tipos.
  */
 struct Expr {
     string dir;   // nombre del temporal, literal o identificador
@@ -32,9 +36,11 @@ struct Expr {
  */
 class Driver {
 public:
+
+    /* Constructor y destructor */
     Driver();
     ~Driver();
-
+    /* Punto de entrada para analizar un archivo fuente */
     void parse(const string& filename);
 
     // ────────────────────────────────────────────
@@ -68,10 +74,16 @@ public:
     //  API para las acciones semánticas del parser
     // ────────────────────────────────────────────
 
-    // Ámbitos
+    /* Crear un nuevo ámbito */
     void pushTS()  { pilaTS.push(new SymbolTable()); }
+
+    /* Eliminar el ámbito actual */
     void popTS()   { if (!pilaTS.empty()) { delete pilaTS.top(); pilaTS.pop(); } }
-    SymbolTable* topTS()    { return pilaTS.top();                      }
+
+    /* Obtener la tabla de símbolos del ámbito actual */
+    SymbolTable* topTS()    { return pilaTS.top();     
+
+    /* Obtener la tabla de símbolos global */                 }
     SymbolTable* bottomTS() {
         // Devuelve el ámbito global (fondo de la pila)
         stack<SymbolTable*> tmp = pilaTS;
@@ -88,6 +100,11 @@ public:
         }
         return false;
     }
+
+    /*
+     * Obtener el tipo asociado a un identificador.
+     * Lanza una excepción si no existe.
+     */
     int getTipoId(const string& id) {
         stack<SymbolTable*> tmp = pilaTS;
         while (!tmp.empty()) {
@@ -101,8 +118,10 @@ public:
     string newTemp()  { return tac.newTemp();  }
     string newLabel() { return tac.newLabel(); }
 
-    // Ampliar / reducir tipos (conversión implícita)
-    // Devuelve un nuevo dir con el tipo destino
+    /*
+     * Amplía un valor a un tipo de mayor capacidad.
+     * Ejemplo: int → float.
+     */
     string ampliar(const string& srcDir, int srcTipo, int dstTipo) {
         if (srcTipo == dstTipo) return srcDir;
         // int → float
@@ -113,6 +132,11 @@ public:
         }
         return srcDir; // mismo tipo u otros casos
     }
+
+    /*
+     * Reduce un valor a un tipo de menor capacidad.
+     * Ejemplo: float → int.
+     */
     string reducir(const string& srcDir, int srcTipo, int dstTipo) {
         if (srcTipo == dstTipo) return srcDir;
         // float → int
@@ -134,6 +158,8 @@ public:
     stack<string> _forInc;         // etiqueta de incremento del for
 
 private:
+
+    /* Ejecuta el análisis sobre un flujo de entrada */
     void parse_helper(istream& stream);
 };
 
