@@ -1,3 +1,6 @@
+/* =====================================================
+   Configuración de Bison para generar un parser C++
+   ===================================================== */
 %skeleton "lalr1.cc"
 %require "3.0"
 
@@ -6,6 +9,10 @@
 %define api.value.type variant
 %define api.token.constructor
 
+/* =====================================================
+   Inclusiones necesarias para las definiciones de tipos
+   utilizadas por los símbolos de la gramática
+   ===================================================== */
 %code requires{
     #include <string>
     #include <vector>
@@ -13,8 +20,12 @@
     using namespace std;
 }
 
+/* Referencia al Driver compartida entre parser y lexer */
 %param { yy::Driver& driver }
 
+/* =====================================================
+   Código auxiliar utilizado por el parser
+   ===================================================== */
 %code{
     #include <iostream>
     #include <stdexcept>
@@ -30,6 +41,7 @@
 %token ASSIGN PLUS MINUS MULT DIV MOD AND OR EQ NE LT GT LE GE
 %token TRUE FALSE
 
+/* Tokens con atributos semánticos */
 %token <string> ID
 %token <int> INTLIT
 %token <float> FLOATLIT
@@ -40,6 +52,7 @@
 %type <yy::Expr>    E C Z
 %type <vector<int>> F G N M
 
+/* Símbolo inicial de la gramática */
 %start P
 
 /* Precedencias lógicas y aritméticas (Resuelven los conflictos de expresiones) */
