@@ -2,16 +2,20 @@
 %option prefix="yy"
 
 %{
+/* Inclusión de bibliotecas estándar */
 #include <string>
 #include <iostream>
+
+/* Archivos del compilador */
 #include "Driver.hpp"
 #include "parser.tab.hh"
 
+/* Definición de la interfaz entre Flex y Bison */
 #undef YY_DECL
 #define YY_DECL yy::parser::symbol_type yylex(yy::Driver& driver)
 %}
 
-/* Expresiones Regulares */
+/* Expresiones regulares utilizadas por el analizador léxico */
 LENG_ID      [a-zA-Z_][a-zA-Z0-9_]*
 LENG_INT     [0-9]+
 LENG_FLOAT   [0-9]+\.[0-9]+
@@ -22,6 +26,7 @@ LENG_CHAR    '([^'\\\n]|\\.)'
 [ \t\r]+                    { /* Ignorar espacios en blanco */ }
 "\n"                        { /* Control de líneas si es necesario */ }
 
+/* Palabras reservadas */
 "int"                       { return yy::parser::make_INT(); }
 "float"                     { return yy::parser::make_FLOAT(); }
 "char"                      { return yy::parser::make_CHAR(); }
@@ -35,6 +40,7 @@ LENG_CHAR    '([^'\\\n]|\\.)'
 "break"                     { return yy::parser::make_BREAK(); }
 "return"                    { return yy::parser::make_RETURN(); }
 
+/* Delimitadores y signos de puntuación */
 "{"                         { return yy::parser::make_LKEY(); }
 "}"                         { return yy::parser::make_RKEY(); }
 "["                         { return yy::parser::make_LBRACKET(); }
@@ -45,13 +51,13 @@ LENG_CHAR    '([^'\\\n]|\\.)'
 ","                         { return yy::parser::make_COMMA(); }
 "."                         { return yy::parser::make_DOT(); }
 
+/* Operadores aritméticos, relacionales y lógicos */
 "="                         { return yy::parser::make_ASSIGN(); }
 "+"                         { return yy::parser::make_PLUS(); }
 "-"                         { return yy::parser::make_MINUS(); }
 "*"                         { return yy::parser::make_MULT(); }
 "/"                         { return yy::parser::make_DIV(); }
 "%"                         { return yy::parser::make_MOD(); }
-
 "&&"                        { return yy::parser::make_AND(); }
 "||"                        { return yy::parser::make_OR(); }
 "=="                        { return yy::parser::make_EQ(); }
@@ -61,14 +67,17 @@ LENG_CHAR    '([^'\\\n]|\\.)'
 "<="                        { return yy::parser::make_LE(); }
 ">="                        { return yy::parser::make_GE(); }
 
+/* Constantes booleanas */
 "true"                      { return yy::parser::make_TRUE(); }
 "false"                     { return yy::parser::make_FALSE(); }
 
+/* Identificadores y literales */
 {LENG_ID}                   { return yy::parser::make_ID(yytext); }
 {LENG_INT}                  { return yy::parser::make_INTLIT(std::stoi(yytext)); }
 {LENG_FLOAT}                { return yy::parser::make_FLOATLIT(std::stof(yytext)); }
 {LENG_CHAR}                 { return yy::parser::make_CHARLIT(yytext[1]); }
 
+/* Detección de símbolos no reconocidos */
 .                           { std::cerr << "Error léxico: " << yytext << std::endl; }
 
 %%
